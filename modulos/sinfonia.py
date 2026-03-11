@@ -1,46 +1,46 @@
-Ôªøimport streamlit as st
+import streamlit as st
 import pandas as pd
 from modulos.db import supabase
 
 def ejecutar():
-    st.header("üé® Sinfon√≠a de Marca & Arquitectura")
+    st.header("?? SinfonÌa de Marca & Arquitectura")
     st.caption("Visualizador en vivo del ADN de Marca y Estructura Web generados por los Micro-Agentes.")
 
     if not supabase:
-        st.error("‚ùå Conexi√≥n a la b√≥veda visual perdida.")
+        st.error("? ConexiÛn a la bÛveda visual perdida.")
         return
 
-    # --- LECTURA DE LA B√ìVEDA ---
+    # --- LECTURA DE LA B”VEDA ---
     try:
-        respuesta = supabase.table("fabrica_proyectos").select("*").order("created_at", descending=True).execute()
+        respuesta = supabase.table("fabrica_proyectos").select("*").order("created_at", desc=True).execute()
         datos = respuesta.data
     except Exception as e:
         st.error(f"Error de lectura: {e}")
         datos = []
 
     if not datos:
-        st.info("üì≠ La b√≥veda visual est√° vac√≠a.")
+        st.info("?? La bÛveda visual est· vacÌa.")
         return
 
     df = pd.DataFrame(datos)
     
     # --- SELECTOR DE PROYECTO ---
-    st.markdown("### üóÇÔ∏è Seleccionar Lienzo de Proyecto")
+    st.markdown("### ??? Seleccionar Lienzo de Proyecto")
     proyecto_seleccionado = st.selectbox("Elige la Web App a previsualizar:", df['nombre_proyecto'].tolist())
     
     datos_proyecto = df[df['nombre_proyecto'] == proyecto_seleccionado].iloc[0]
     
-    # Extracci√≥n segura de diccionarios JSON
+    # ExtracciÛn segura de diccionarios JSON
     config_ui = datos_proyecto.get('configuracion_ui') or {}
     estructura_web = datos_proyecto.get('estructura_web') or {}
     
     if not config_ui and not estructura_web:
-        st.warning("‚ö†Ô∏è Este proyecto no contiene ADN visual ni estructura base. Ve al CRM a generarlos.")
+        st.warning("?? Este proyecto no contiene ADN visual ni estructura base. Ve al CRM a generarlos.")
         return
 
     st.success(f"Cargando especificaciones para: **{datos_proyecto.get('cliente_asociado', 'Cliente')}**")
     
-    # --- PANEL DE EXTRACCI√ìN DUAL (DISE√ëO + ARQUITECTURA) ---
+    # --- PANEL DE EXTRACCI”N DUAL (DISE—O + ARQUITECTURA) ---
     st.markdown("---")
     col1, col2 = st.columns(2)
     
@@ -48,24 +48,24 @@ def ejecutar():
     color_sec = config_ui.get('color_secundario', '#1A1A1A')
     
     with col1:
-        st.subheader("üé® Paleta Base")
+        st.subheader("?? Paleta Base")
         st.color_picker("Color Primario", color_pri, disabled=True)
         st.color_picker("Color Secundario", color_sec, disabled=True)
         
     with col2:
-        st.subheader("üèóÔ∏è Arquitectura Web")
+        st.subheader("??? Arquitectura Web")
         if estructura_web:
-            st.info(f"**Navegaci√≥n:** {estructura_web.get('navegacion', 'N/A')}")
-            st.write("**P√°ginas Integradas:** " + " | ".join(estructura_web.get('paginas', [])))
-            st.write("**M√≥dulos Activos:** " + ", ".join(estructura_web.get('modulos_activos', [])))
+            st.info(f"**NavegaciÛn:** {estructura_web.get('navegacion', 'N/A')}")
+            st.write("**P·ginas Integradas:** " + " | ".join(estructura_web.get('paginas', [])))
+            st.write("**MÛdulos Activos:** " + ", ".join(estructura_web.get('modulos_activos', [])))
         else:
             st.warning("Estructura Web no definida. Ejecuta el Agente de Desarrollo Web en el CRM.")
 
     # --- RENDERIZADO DE ALTA FIDELIDAD ---
     st.markdown("---")
-    st.subheader("üëÅÔ∏è Previsualizaci√≥n del Producto Final")
+    st.subheader("??? PrevisualizaciÛn del Producto Final")
     
-    # Construcci√≥n din√°mica del men√∫ superior
+    # ConstrucciÛn din·mica del men˙ superior
     paginas = estructura_web.get('paginas', ['Inicio', 'Contacto'])
     nav_links = "".join([f"<span style='margin-left:20px; cursor:pointer; font-size:14px; text-transform:uppercase; letter-spacing:1px;'>{p}</span>" for p in paginas])
     modulos = ", ".join(estructura_web.get('modulos_activos', ['Ninguno']))
@@ -86,14 +86,14 @@ def ejecutar():
                 Bienvenidos a la Plataforma Inteligente
             </h1>
             <p style="font-size: 18px; line-height: 1.8; opacity: 0.9;">
-                Esta vista integra autom√°ticamente la configuraci√≥n visual y la arquitectura de software. 
-                Los siguientes m√≥dulos backend est√°n listos para acoplarse: 
+                Esta vista integra autom·ticamente la configuraciÛn visual y la arquitectura de software. 
+                Los siguientes mÛdulos backend est·n listos para acoplarse: 
                 <br><br>
-                <span style="color:{color_pri}; font-weight:bold;">‚öôÔ∏è {modulos}</span>
+                <span style="color:{color_pri}; font-weight:bold;">?? {modulos}</span>
             </p>
             <br>
             <button style="background-color: {color_pri}; color: {color_sec}; border: none; padding: 14px 28px; border-radius: 4px; font-weight: bold; cursor: pointer; font-size: 16px; transition: 0.3s;">
-                Ejecutar M√≥dulo Principal
+                Ejecutar MÛdulo Principal
             </button>
         </div>
     """
