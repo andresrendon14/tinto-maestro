@@ -87,3 +87,5 @@ def ejecutar():
                 supabase.table("leads").insert({"nombre": nombre, "correo": correo, "empresa": empresa, "estado": "Nuevo Lead"}).execute()
                 st.rerun()
 
+
+# Update: Sync OK
