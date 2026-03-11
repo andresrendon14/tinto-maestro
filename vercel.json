@@ -1,0 +1,9 @@
+﻿{
+  "version": 2,
+  "builds": [{"src": "app.py", "use": "@vercel/python"}],
+  "routes": [{"src": "(.*)", "dest": "app.py"}],
+  "env": {
+    "SUPABASE_URL": "https://qgiirjmtvzhkokqptvsk.supabase.co",
+    "SUPABASE_ANON_KEY": "sb_publishable_fMGqW_Y_2G08TKv54dXlQw_sq5Tbhut"
+  }
+}
