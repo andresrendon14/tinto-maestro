@@ -1,15 +1,16 @@
 ﻿{
   "version": 2,
-  "name": "tinto-maestro",
   "builds": [
-    { "src": "app.py", "use": "@vercel/python" }
+    {
+      "src": "app.py",
+      "use": "@vercel/python",
+      "config": { "runtime": "python3.9" }
+    }
   ],
   "routes": [
-    { "handle": "filesystem" },
-    { "src": "/(.*)", "dest": "app.py" }
-  ],
-  "env": {
-    "SUPABASE_URL": "https://qgiirjmtvzhkokqptvsk.supabase.co",
-    "SUPABASE_ANON_KEY": "sb_publishable_fMGqW_Y_2G08TKv54dXlQw_sq5Tbhut"
-  }
+    {
+      "src": "/(.*)",
+      "dest": "app.py"
+    }
+  ]
 }
