@@ -4,6 +4,7 @@
   "routes": [{"src": "(.*)", "dest": "app.py"}],
   "env": {
     "SUPABASE_URL": "https://qgiirjmtvzhkokqptvsk.supabase.co",
-    "SUPABASE_ANON_KEY": "sb_publishable_fMGqW_Y_2G08TKv54dXlQw_sq5Tbhut"
+    "SUPABASE_ANON_KEY": "sb_publishable_fMGqW_Y_2G08TKv54dXlQw_sq5Tbhut",
+    "PYTHON_VERSION": "3.11"
   }
 }

@@ -1,0 +1,2 @@
+﻿Hostinger CNAME Record: www -> cname.vercel-dns.com
+Hostinger A Record: @ -> 76.76.21.21
