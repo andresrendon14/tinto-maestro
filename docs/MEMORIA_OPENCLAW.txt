@@ -1,25 +1,6 @@
-﻿*** CAJA NEGRA Y MEMORIA: TINTO MAESTRO ***
-CEO: Andrés (Cuenta: joseandresrendonduque96)
+﻿*** MEMORIA DE DESARROLLO: TINTO MAESTRO ***
 Proyecto: Tinto Maestro (Marca Blanca "Los Parceritos")
-Dominio: losparceritos.com / tinto-maestro.streamlit.app
-
-1. ARQUITECTURA ACTUAL (Modular - Nivel 1 Completado):
-- 'app.py': Es solo el Router y la pantalla de Login (ceo / 123456). NO SE REESCRIBE.
-- Carpeta 'modulos/': Contiene las piezas de Lego.
-- Módulo 1 Activo: 'modulos/sinfonia.py' (Configuración de Marca).
-
-2. ESTADO DEL SERVIDOR Y SEGURIDAD:
-- Servidor: Estable, purgado y en línea. Dominio propagado.
-- Dependencias: 'requirements.txt' tiene solo 'streamlit' por ahora. Añadiremos librerías 1 a 1.
-- Caja Negra: 'git reset --hard HEAD~1' es el botón de pánico si un módulo nuevo rompe el sistema.
-
-3. REGLAS DE OPENCLAW (Anti-Alucinaciones):
-- Trabajar SIEMPRE con Micro-Desarrollo (un módulo/archivo a la vez).
-- Si se va a editar un módulo existente, el CEO debe pegar el código actual primero para dar contexto.
-- Mantener diseño: Minimalista, Apple-style, bordes redondeados, colores de café.
-
-4. ÚLTIMO PASO REALIZADO:
-- Creación de la Arquitectura Modular y purga de errores del servidor.
-
-5. SIGUIENTE PASO A DESARROLLAR:
-- Pendiente de orden del CEO para iniciar el Módulo 2 (Consola IA, CRM, o Supabase).
+Dominio: losparceritos.com
+Arquitectura: Modular, segura, sin monolitos.
+Regla de rescate en nuevo chat: "Hola, soy Andrés. Activa el protocolo Tinto Maestro. Aquí está la memoria del proyecto: [PEGAR ESTO]"
+Estado: Arquitectura Base Completada. Frontend operativo. Backend pendiente.

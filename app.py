@@ -1,52 +1,44 @@
 ﻿import streamlit as st
+from modulos import inicio, sinfonia, consola_ia, conocimiento, crm, metricas, publicacion, ciberseguridad, integraciones
 
-# 1. Importar las piezas de Lego que ya están en tu GitHub
-import modulos.sinfonia as sinfonia
-import modulos.consola_ia as consola_ia
+st.set_page_config(page_title="Tinto Maestro", page_icon="☕", layout="wide")
 
-# 2. Configuración base
-st.set_page_config(page_title="Tinto Maestro | CEO", page_icon="☕", layout="wide")
+st.markdown("""
+<style>
+    .stApp { background-color: #FDFBF7; }
+    .stButton>button { border-radius: 12px; background-color: #4A3B32; color: white; border: none; }
+    .stButton>button:hover { background-color: #2C211A; }
+    .sidebar .sidebar-content { background-color: #FFFFFF; }
+</style>
+""", unsafe_allow_html=True)
 
-# 3. Lógica de Login
-if 'logged_in' not in st.session_state:
-    st.session_state.logged_in = False
+if 'logged_in' not in st.session_state: st.session_state.logged_in = False
 
 if not st.session_state.logged_in:
-    col1, col2, col3 = st.columns([1,2,1])
-    with col2:
-        st.title("☕ Tinto Maestro")
-        st.caption("Consola Central de Operaciones")
-        with st.form("login_form"):
-            u = st.text_input("Usuario Master")
-            p = st.text_input("Contraseña", type="password")
-            if st.form_submit_button("Entrar a la Fábrica"):
+    c1, c2, c3 = st.columns([1,1.5,1])
+    with c2:
+        st.markdown("<h1 style='text-align: center; color: #4A3B32;'>☕ Tinto Maestro</h1>", unsafe_allow_html=True)
+        with st.form("login"):
+            u = st.text_input("Usuario")
+            p = st.text_input("Password", type="password")
+            if st.form_submit_button("Acceder", use_container_width=True):
                 if u == "ceo" and p == "123456":
                     st.session_state.logged_in = True
                     st.rerun()
-                else:
-                    st.error("Credenciales incorrectas")
+                else: st.error("Acceso denegado")
 else:
-    # 4. El Menú del CEO (El enrutador)
-    st.sidebar.title("🎛️ Panel CEO")
+    st.sidebar.title("☕ Menú CEO")
+    modulos = {
+        "🏠 Inicio": inicio, "🎨 Sinfonía de Marca": sinfonia, "🧠 Cerebro IA": consola_ia, 
+        "📚 Conocimiento": conocimiento, "🤝 CRM": crm, "📈 Métricas": metricas, 
+        "🚀 Publicación": publicacion, "🛡️ Ciberseguridad": ciberseguridad, "🔌 Integraciones": integraciones
+    }
     
-    menu = st.sidebar.radio("Navegación", [
-        "Inicio", 
-        "Sinfonía de Marca", 
-        "Cerebro IA & CRM"
-    ])
-    
-    if menu == "Inicio":
-        st.title("Centro de Mando")
-        st.success("¡Arquitectura Modular Conectada con Éxito!")
-        st.write("Tus módulos de IA y Marca están a salvo en la carpeta 'modulos'. Selecciona uno en el menú izquierdo.")
-        
-    elif menu == "Sinfonía de Marca":
-        sinfonia.ejecutar()
-        
-    elif menu == "Cerebro IA & CRM":
-        consola_ia.ejecutar()
-        
+    seleccion = st.sidebar.radio("Navegación", list(modulos.keys()))
     st.sidebar.markdown("---")
     if st.sidebar.button("Cerrar Sesión"):
         st.session_state.logged_in = False
         st.rerun()
+        
+    # Ejecutar módulo seleccionado
+    modulos[seleccion].ejecutar()

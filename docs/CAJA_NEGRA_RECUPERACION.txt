@@ -1,0 +1,4 @@
+﻿*** MANUAL DE RESCATE - CAJA NEGRA ***
+1. Si la app muere: Revisar panel de Streamlit (Manage App).
+2. Si el código se rompe irremediablemente: Abre PowerShell y usa "git reset --hard HEAD~1" seguido de "git push origin main --force".
+3. Secretos: NUNCA en código. Siempre en .streamlit/secrets.toml o panel cloud.

@@ -1,5 +1,4 @@
-﻿# Ignorar bóveda de secretos y archivos basura
-.streamlit/secrets.toml
+﻿.streamlit/secrets.toml
 __pycache__/
 *.pyc
 tinto_maestro_data/
