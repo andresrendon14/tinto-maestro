@@ -13,7 +13,6 @@ def ejecutar():
 
     # --- LECTURA DE DATOS (RESTAURACIÓN DE CAMPOS) ---
     try:
-        # Traemos todos los campos: nombre, direccion, celular, correo, marca, estado
         respuesta = supabase.table("leads").select("*").order('created_at', descending=True).execute()
         datos = respuesta.data
     except Exception as e:
@@ -36,28 +35,68 @@ def ejecutar():
             st.success(f"**ID Seguridad:** `TM-DB-{cliente_data.get('id', '000')}`")
             st.info(f"📍 **Ubicación Física:** Servidor Cloud-SSL")
             
-            # --- BITÁCORA DE DESARROLLO (LO QUE SE HA HECHO) ---
             st.markdown("**📜 Bitácora de Logros (Hecho):**")
             st.write("✅ Infraestructura de Datos Sincronizada.")
             st.write("✅ Módulo CRM con Edición en Vivo Activo.")
             st.write(f"✅ Campos Premium (Marca: {cliente_data.get('marca', 'N/A')}) configurados.")
             
-            # Auditoría de Módulos
             modulos = os.listdir('modulos') if os.path.exists('modulos') else []
             st.caption(f"Estructura detectada: {len(modulos)} archivos fuente.")
 
         with col_agentes:
-            st.subheader("🤖 Consola de Micro-Agentes")
-            c1, c2 = st.columns(2)
-            if c1.button("🧠 Agente de Perfilamiento"):
-                st.toast("Analizando nicho de mercado...")
-                st.info(f"Agente: 'Sugiero enfoque en {cliente_data.get('marca')} basado en datos de {cliente_data.get('nombre')}'")
+            st.subheader("🤖 Enrutador de Micro-Agentes")
             
-            if c2.button("✉️ Agente de Notificación"):
-                st.toast("Preparando canal de comunicación...")
-                st.success(f"Email listo para enviar a: {cliente_data.get('correo')}")
+            # Directorio Central de Microservicios (Escalable)
+            directorio_agentes = {
+                "🎨 Gestión de Marca": ["Generar Identidad Visual", "Redactar Tono de Voz"],
+                "⚙️ Desarrollo Web": ["Generar Estructura Base", "Configurar Autenticación"],
+                "📈 Marketing & Métricas": ["Perfilamiento de Nicho (IA)", "Redactar Email de Bienvenida"],
+                "🛡️ Ciberseguridad": ["Auditoría de Datos", "Generar Llaves de Acceso"]
+            }
+            
+            # El CRM identifica el dominio operativo requerido
+            area_seleccionada = st.selectbox("Selecciona el Dominio Operativo:", list(directorio_agentes.keys()))
+            st.markdown(f"**Agentes disponibles para {area_seleccionada.split(' ', 1)[1] if len(area_seleccionada.split(' ')) > 1 else area_seleccionada}:**")
+            
+            acciones = directorio_agentes[area_seleccionada]
+            c1, c2 = st.columns(2)
+            
+            if c1.button(f"🚀 {acciones[0]}", use_container_width=True):
+                st.toast(f"Inicializando: {acciones[0]}...")
+                
+                # --- LÓGICA QUIRÚRGICA: AGENTE DE IDENTIDAD VISUAL ---
+                if acciones[0] == "Generar Identidad Visual":
+                    marca_cliente = cliente_data.get('marca', 'Sin Marca')
+                    st.info(f"Sintetizando ADN visual para la marca '{marca_cliente}'...")
+                    
+                    configuracion_marca = {
+                        "tema": "Premium Dark",
+                        "color_primario": "#D4AF37",
+                        "color_secundario": "#1A1A1A",
+                        "tipografia_titulos": "Playfair Display",
+                        "tipografia_textos": "Inter"
+                    }
+                    
+                    try:
+                        supabase.table("fabrica_proyectos").insert({
+                            "nombre_proyecto": f"WebApp_{marca_cliente.replace(' ', '')}",
+                            "cliente_asociado": cliente_data.get('nombre', 'Desconocido'),
+                            "estado": "Diseño Base Inyectado",
+                            "configuracion_ui": configuracion_marca
+                        }).execute()
+                        st.success("✅ ADN Visual generado y custodiado en la tabla 'fabrica_proyectos'.")
+                        st.balloons()
+                    except Exception as e:
+                        st.error(f"Error de custodia (Falta crear tabla en Supabase): {e}")
+                
+                else:
+                    st.info(f"Extrayendo datos de la marca '{cliente_data.get('marca', 'N/A')}' para ejecutar {acciones[0]}...")
+                
+            if len(acciones) > 1 and c2.button(f"⚡ {acciones[1]}", use_container_width=True):
+                st.toast(f"Inicializando: {acciones[1]}...")
+                st.success(f"Operación '{acciones[1]}' preparada para el correo: {cliente_data.get('correo', 'N/A')}")
 
-            # --- ROADMAP: LO QUE FALTA (GUÍA TÉCNICA) ---
+            # --- ROADMAP: LO QUE FALTA ---
             st.markdown("---")
             st.warning("🚧 **Guía de Ingeniería (Faltante):**")
             progreso = st.slider("Avance de Web App", 0, 100, 35)
@@ -69,10 +108,9 @@ def ejecutar():
                 st.markdown("- [ ] **Despliegue Final:** Vincular dominio .com")
                 st.markdown("- [ ] **Manual PDF:** Generar documentación final.")
 
-        # --- TABLA MAESTRA (EDICIÓN QUIRÚRGICA) ---
+        # --- TABLA MAESTRA ---
         st.markdown("---")
         st.subheader("📝 Directorio Premium (Edición en Vivo)")
-        # Aseguramos que las columnas importantes se vean primero
         cols_orden = ['nombre', 'marca', 'correo', 'celular', 'direccion', 'estado']
         cols_final = [c for c in cols_orden if c in df.columns] + [c for c in df.columns if c not in cols_orden]
         
@@ -91,7 +129,6 @@ def ejecutar():
         if st.button("🔄 Sincronizar Bóveda y Guardar Cambios"):
             for index, row in df_editado.iterrows():
                 try:
-                    # Usamos el ID original para actualizar
                     id_orig = df.iloc[index]['id']
                     supabase.table("leads").update({
                         "nombre": row.get('nombre'),
@@ -105,7 +142,7 @@ def ejecutar():
             st.success("✨ ¡Sincronización Exitosa! Datos protegidos en la Caja Negra.")
             st.rerun()
 
-    # --- FORMULARIO DE INYECCIÓN DE PROYECTOS ---
+    # --- FORMULARIO DE INYECCIÓN ---
     with st.expander("➕ Iniciar Nueva Web App (Alta de Cliente Premium)"):
         with st.form("form_alta"):
             f1, f2 = st.columns(2)
