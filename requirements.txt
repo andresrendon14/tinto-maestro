@@ -1,5 +1,8 @@
 ﻿streamlit
 pandas
-pillow
-qrcode
 supabase
+requests
+fastapi
+uvicorn
+pypdf
+python-multipart
