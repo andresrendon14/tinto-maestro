@@ -4,27 +4,25 @@ from supabase import create_client, Client
 import qrcode
 from PIL import Image
 
-# Configuración visual
 st.set_page_config(page_title="Tinto Maestro", page_icon="☕")
 
-# Carga de Secrets con manejo de errores
-try:
-    url = st.secrets["SUPABASE_URL"]
-    key = st.secrets["SUPABASE_ANON_KEY"]
-    supabase: Client = create_client(url, key)
-except Exception as e:
-    st.error("Error de configuración: Faltan las llaves en Secrets.")
+# Manejo de Secrets
+if "SUPABASE_URL" not in st.secrets:
+    st.error("⚠️ Falta configurar los Secrets en Streamlit Cloud")
     st.stop()
+
+url = st.secrets["SUPABASE_URL"]
+key = st.secrets["SUPABASE_ANON_KEY"]
+supabase: Client = create_client(url, key)
 
 def main():
     st.title("☕ Tinto Maestro")
-    st.markdown("---")
     
     if 'logged_in' not in st.session_state:
         st.session_state.logged_in = False
 
     if not st.session_state.logged_in:
-        st.subheader("Acceso a Consola CEO")
+        st.subheader("Panel de Acceso")
         with st.form("login"):
             user = st.text_input("Usuario")
             pw = st.text_input("Contraseña", type="password")
@@ -33,10 +31,9 @@ def main():
                     st.session_state.logged_in = True
                     st.rerun()
                 else:
-                    st.error("Acceso denegado")
+                    st.error("Credenciales incorrectas")
     else:
         st.success("💻 Consola CEO Activada")
-        st.info("Conexión con Supabase: ESTABLE")
         if st.button("Cerrar Sesión"):
             st.session_state.logged_in = False
             st.rerun()
