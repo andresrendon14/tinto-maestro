@@ -1,29 +1,21 @@
 ﻿import streamlit as st
-from modulos import inicio, sinfonia, consola_ia, conocimiento, crm, metricas, publicacion, ciberseguridad, integraciones
+st.set_page_config(page_title="Brand OS", page_icon="🎼", layout="wide", initial_sidebar_state="expanded")
 
-st.set_page_config(page_title="Tinto Maestro", page_icon="☕", layout="wide")
+from frontend.pages import crm_view, conocimiento_view, sinfonia_view
 
-if 'logged_in' not in st.session_state: st.session_state.logged_in = False
-
-if not st.session_state.logged_in:
-    st.title("☕ Tinto Maestro")
-    with st.form("login"):
-        if st.text_input("Usuario") == "ceo" and st.text_input("Password", type="password") == "123456":
-            if st.form_submit_button("Acceder"):
-                st.session_state.logged_in = True
-                st.rerun()
-        else: st.form_submit_button("Acceder")
-else:
-    st.sidebar.title("☕ Menú CEO")
-    modulos = {
-        "🏠 Inicio": inicio, "🎨 Sinfonía de Marca": sinfonia, "🧠 Cerebro IA": consola_ia, 
-        "📚 Conocimiento": conocimiento, "🤝 CRM": crm, "📈 Métricas": metricas, 
-        "🚀 Publicación": publicacion, "🛡️ Ciberseguridad": ciberseguridad, "🔌 Integraciones": integraciones
-    }
+def main():
+    st.sidebar.title("Brand OS ⚡")
+    menu = st.sidebar.radio("Navegación Operativa", ["Dashboard", "CRM (Proyectos)", "Conocimiento (RAG)", "Sinfonía (Compilador)"])
     
-    seleccion = st.sidebar.radio("Navegación", list(modulos.keys()))
-    if st.sidebar.button("Cerrar Sesión"):
-        st.session_state.logged_in = False
-        st.rerun()
-        
-    modulos[seleccion].ejecutar()
+    if menu == "CRM (Proyectos)":
+        crm_view.ejecutar()
+    elif menu == "Conocimiento (RAG)":
+        conocimiento_view.ejecutar()
+    elif menu == "Sinfonía (Compilador)":
+        sinfonia_view.ejecutar()
+    else:
+        st.title("Dashboard Central")
+        st.info("Bienvenido al Motor Cognitivo de Marca. Selecciona un módulo en el menú lateral.")
+
+if __name__ == "__main__":
+    main()
