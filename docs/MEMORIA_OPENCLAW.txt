@@ -1,25 +1,25 @@
-﻿*** MEMORIA DE DESARROLLO: TINTO MAESTRO ***
+﻿*** CAJA NEGRA Y MEMORIA: TINTO MAESTRO ***
 CEO: Andrés (Cuenta: joseandresrendonduque96)
 Proyecto: Tinto Maestro (Marca Blanca "Los Parceritos")
 Dominio: losparceritos.com / tinto-maestro.streamlit.app
 
-1. ARQUITECTURA ACTUAL (Modular):
-- El sistema ya no es un monolito. Es escalable.
-- 'app.py': Funciona solo como Router (Director de orquesta) y Login (ceo / 123456).
+1. ARQUITECTURA ACTUAL (Modular - Nivel 1 Completado):
+- 'app.py': Es solo el Router y la pantalla de Login (ceo / 123456). NO SE REESCRIBE.
 - Carpeta 'modulos/': Contiene las piezas de Lego.
-- Módulo activo: 'modulos/sinfonia.py' (Configuración de Marca Blanca, colores, logos).
+- Módulo 1 Activo: 'modulos/sinfonia.py' (Configuración de Marca).
 
-2. ESTADO DEL SERVIDOR:
-- Estable. Dominio conectado y propagado.
-- 'requirements.txt' purgado y funcionando solo con 'streamlit'.
+2. ESTADO DEL SERVIDOR Y SEGURIDAD:
+- Servidor: Estable, purgado y en línea. Dominio propagado.
+- Dependencias: 'requirements.txt' tiene solo 'streamlit' por ahora. Añadiremos librerías 1 a 1.
+- Caja Negra: 'git reset --hard HEAD~1' es el botón de pánico si un módulo nuevo rompe el sistema.
 
-3. REGLAS DE OPENCLAW PARA ESTE PROYECTO:
-- NO reescribir 'app.py' completo.
-- Crear funciones nuevas en archivos separados dentro de 'modulos/'.
-- Mantener estilo Apple (minimalista, bordes redondeados, colores café/claros).
+3. REGLAS DE OPENCLAW (Anti-Alucinaciones):
+- Trabajar SIEMPRE con Micro-Desarrollo (un módulo/archivo a la vez).
+- Si se va a editar un módulo existente, el CEO debe pegar el código actual primero para dar contexto.
+- Mantener diseño: Minimalista, Apple-style, bordes redondeados, colores de café.
 
 4. ÚLTIMO PASO REALIZADO:
-- Transición exitosa de código espagueti a Arquitectura Modular.
+- Creación de la Arquitectura Modular y purga de errores del servidor.
 
-5. SIGUIENTE PASO PENDIENTE:
-- Decidir qué módulo construir a continuación (Consola IA, CRM, Base de datos Supabase, etc.).
+5. SIGUIENTE PASO A DESARROLLAR:
+- Pendiente de orden del CEO para iniciar el Módulo 2 (Consola IA, CRM, o Supabase).
