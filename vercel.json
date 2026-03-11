@@ -1,16 +1,12 @@
 ﻿{
   "version": 2,
+  "name": "tinto-maestro",
   "builds": [
-    {
-      "src": "index.py",
-      "use": "@vercel/python"
-    }
+    { "src": "app.py", "use": "@vercel/python" }
   ],
   "routes": [
-    {
-      "src": "/(.*)",
-      "dest": "index.py"
-    }
+    { "handle": "filesystem" },
+    { "src": "/(.*)", "dest": "app.py" }
   ],
   "env": {
     "SUPABASE_URL": "https://qgiirjmtvzhkokqptvsk.supabase.co",
