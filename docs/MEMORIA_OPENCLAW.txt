@@ -1,6 +1,4 @@
 ﻿*** MEMORIA DE DESARROLLO: TINTO MAESTRO ***
 Proyecto: Tinto Maestro (Marca Blanca "Los Parceritos")
 Dominio: losparceritos.com
-Arquitectura: Modular, segura, sin monolitos.
-Regla de rescate en nuevo chat: "Hola, soy Andrés. Activa el protocolo Tinto Maestro. Aquí está la memoria del proyecto: [PEGAR ESTO]"
-Estado: Arquitectura Base Completada. Frontend operativo. Backend pendiente.
+Arquitectura: Modular, segura, conectada a Supabase.

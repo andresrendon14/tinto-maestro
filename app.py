@@ -3,29 +3,16 @@ from modulos import inicio, sinfonia, consola_ia, conocimiento, crm, metricas, p
 
 st.set_page_config(page_title="Tinto Maestro", page_icon="☕", layout="wide")
 
-st.markdown("""
-<style>
-    .stApp { background-color: #FDFBF7; }
-    .stButton>button { border-radius: 12px; background-color: #4A3B32; color: white; border: none; }
-    .stButton>button:hover { background-color: #2C211A; }
-    .sidebar .sidebar-content { background-color: #FFFFFF; }
-</style>
-""", unsafe_allow_html=True)
-
 if 'logged_in' not in st.session_state: st.session_state.logged_in = False
 
 if not st.session_state.logged_in:
-    c1, c2, c3 = st.columns([1,1.5,1])
-    with c2:
-        st.markdown("<h1 style='text-align: center; color: #4A3B32;'>☕ Tinto Maestro</h1>", unsafe_allow_html=True)
-        with st.form("login"):
-            u = st.text_input("Usuario")
-            p = st.text_input("Password", type="password")
-            if st.form_submit_button("Acceder", use_container_width=True):
-                if u == "ceo" and p == "123456":
-                    st.session_state.logged_in = True
-                    st.rerun()
-                else: st.error("Acceso denegado")
+    st.title("☕ Tinto Maestro")
+    with st.form("login"):
+        if st.text_input("Usuario") == "ceo" and st.text_input("Password", type="password") == "123456":
+            if st.form_submit_button("Acceder"):
+                st.session_state.logged_in = True
+                st.rerun()
+        else: st.form_submit_button("Acceder")
 else:
     st.sidebar.title("☕ Menú CEO")
     modulos = {
@@ -35,10 +22,8 @@ else:
     }
     
     seleccion = st.sidebar.radio("Navegación", list(modulos.keys()))
-    st.sidebar.markdown("---")
     if st.sidebar.button("Cerrar Sesión"):
         st.session_state.logged_in = False
         st.rerun()
         
-    # Ejecutar módulo seleccionado
     modulos[seleccion].ejecutar()
