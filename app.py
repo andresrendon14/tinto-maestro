@@ -1,36 +1,52 @@
 ﻿import streamlit as st
 
-# Importar nuestras piezas de Lego (Módulos)
+# 1. Importar las piezas de Lego que ya están en tu GitHub
 import modulos.sinfonia as sinfonia
+import modulos.consola_ia as consola_ia
 
-st.set_page_config(page_title="Tinto Maestro", page_icon="☕", layout="wide")
+# 2. Configuración base
+st.set_page_config(page_title="Tinto Maestro | CEO", page_icon="☕", layout="wide")
 
+# 3. Lógica de Login
 if 'logged_in' not in st.session_state:
     st.session_state.logged_in = False
 
 if not st.session_state.logged_in:
-    st.title("☕ Tinto Maestro")
-    with st.form("login"):
-        if st.text_input("Usuario") == "ceo" and st.text_input("Clave", type="password") == "123456":
-            if st.form_submit_button("Entrar"):
-                st.session_state.logged_in = True
-                st.rerun()
-        else:
-            st.form_submit_button("Entrar")
+    col1, col2, col3 = st.columns([1,2,1])
+    with col2:
+        st.title("☕ Tinto Maestro")
+        st.caption("Consola Central de Operaciones")
+        with st.form("login_form"):
+            u = st.text_input("Usuario Master")
+            p = st.text_input("Contraseña", type="password")
+            if st.form_submit_button("Entrar a la Fábrica"):
+                if u == "ceo" and p == "123456":
+                    st.session_state.logged_in = True
+                    st.rerun()
+                else:
+                    st.error("Credenciales incorrectas")
 else:
-    st.sidebar.title("Panel CEO")
-    opcion = st.sidebar.radio("Navegación", ["Inicio", "Sinfonía de Marca", "Consola IA"])
+    # 4. El Menú del CEO (El enrutador)
+    st.sidebar.title("🎛️ Panel CEO")
     
-    if opcion == "Inicio":
-        st.success("Arquitectura Modular Activada. El sistema ahora es escalable.")
+    menu = st.sidebar.radio("Navegación", [
+        "Inicio", 
+        "Sinfonía de Marca", 
+        "Cerebro IA & CRM"
+    ])
     
-    # AQUÍ CONECTAMOS EL MÓDULO (El código vive en otro archivo)
-    elif opcion == "Sinfonía de Marca":
+    if menu == "Inicio":
+        st.title("Centro de Mando")
+        st.success("¡Arquitectura Modular Conectada con Éxito!")
+        st.write("Tus módulos de IA y Marca están a salvo en la carpeta 'modulos'. Selecciona uno en el menú izquierdo.")
+        
+    elif menu == "Sinfonía de Marca":
         sinfonia.ejecutar()
         
-    elif opcion == "Consola IA":
-        st.info("Módulo de IA en construcción... (Pronto será otro archivo independiente)")
+    elif menu == "Cerebro IA & CRM":
+        consola_ia.ejecutar()
         
-    if st.sidebar.button("Salir"):
+    st.sidebar.markdown("---")
+    if st.sidebar.button("Cerrar Sesión"):
         st.session_state.logged_in = False
         st.rerun()
