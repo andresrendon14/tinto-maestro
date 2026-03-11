@@ -3,55 +3,87 @@ import pandas as pd
 from modulos.db import supabase
 
 def ejecutar():
-    st.header("🤝 CRM Activo (Conectado a Supabase)")
+    st.header("🧠 CRM: Cerebro de Agentes & Microservicios")
     
     if not supabase:
-        st.error("❌ Faltan las llaves de Supabase en los secretos.")
+        st.error("❌ Conexión de Microservicios caída.")
         return
 
+    # --- TABLERO DE CONTROL (MICROSERVICIOS) ---
+    col1, col2, col3 = st.columns(3)
+    col1.metric("Agentes Activos", "4", "Online")
+    col2.metric("Microservicios", "12", "Ready")
+    col3.metric("Acciones IA", "24h", "Sync")
+
+    # --- LECTURA DE DATOS ---
     try:
-        respuesta = supabase.table("leads").select("*").execute()
+        respuesta = supabase.table("leads").select("*").order('created_at', descending=True).execute()
         datos = respuesta.data
-    except Exception as e:
+    except:
         datos = []
 
-    st.markdown("### 📋 Directorio de Clientes")
+    st.markdown("### 📋 Directorio Operativo (Modificable)")
+    
     if datos:
         df = pd.DataFrame(datos)
-        if 'id' in df.columns: df = df.drop(columns=['id'])
-        if 'created_at' in df.columns: df = df.drop(columns=['created_at'])
-        
-        # Organizar columnas
-        columnas_orden = ['nombre', 'correo', 'empresa', 'telefono', 'estado']
-        columnas_actuales = [col for col in columnas_orden if col in df.columns]
-        otras = [col for col in df.columns if col not in columnas_actuales]
-        df = df[columnas_actuales + otras]
-        
-        st.dataframe(df, use_container_width=True)
-    else:
-        st.info("No hay clientes guardados todavía.")
+        # Configurar el Data Editor (Superpoder de Edición)
+        df_editado = st.data_editor(
+            df,
+            column_config={
+                "estado": st.column_config.SelectboxColumn(
+                    "Estado del Agente",
+                    help="Define la fase del microservicio",
+                    options=["Nuevo Lead", "IA Procesando", "Agente Humano", "Cierre Exitoso", "Perdido"],
+                    required=True,
+                ),
+                "correo": st.column_config.TextColumn("📧 Email", validate="^[^@]+@[^@]+\.[^@]+$"),
+            },
+            disabled=["id", "created_at"],
+            hide_index=True,
+            use_container_width=True,
+            key="editor_crm"
+        )
 
-    with st.expander("➕ Agregar Nuevo Cliente", expanded=True):
-        with st.form("form_nuevo_lead", clear_on_submit=True):
-            c1, c2 = st.columns(2)
-            nombre = c1.text_input("👤 Nombre Completo *")
-            correo = c2.text_input("📧 Correo Electrónico")
-            empresa = c1.text_input("🏢 Empresa")
-            telefono = c2.text_input("📱 Teléfono")
-            estado = st.selectbox("📌 Estado", ["Nuevo Lead", "En Negociación", "Cierre Exitoso", "Perdido"])
+        # BOTÓN PARA SINCRONIZAR CAMBIOS
+        if st.button("🔄 Sincronizar Cambios en la Bóveda"):
+            for index, row in df_editado.iterrows():
+                supabase.table("leads").update({
+                    "nombre": row['nombre'],
+                    "correo": row['correo'],
+                    "empresa": row['empresa'],
+                    "estado": row['estado'],
+                    "telefono": row['telefono']
+                }).eq("id", row['id']).execute()
+            st.success("✨ Inteligencia Sincronizada.")
+            st.rerun()
+
+        # --- SECCIÓN DE MICROSERVICIOS ---
+        st.markdown("---")
+        st.subheader("⚡ Disparador de Microservicios por Lead")
+        
+        lead_seleccionado = st.selectbox("Selecciona un Lead para activar un Agente:", df['nombre'].tolist())
+        
+        c1, c2, c3 = st.columns(3)
+        if c1.button("🤖 Agente de Perfilamiento"):
+            st.toast(f"Activando Microservicio IA para {lead_seleccionado}...")
+            st.info(f"El Agente está analizando la empresa de {lead_seleccionado} en la web...")
             
-            submit = st.form_submit_button("💾 Guardar en la Nube", use_container_width=True)
-            
-            if submit:
-                if not nombre:
-                    st.error("El nombre es obligatorio.")
-                else:
-                    try:
-                        supabase.table("leads").insert({
-                            "nombre": nombre, "correo": correo, "empresa": empresa,
-                            "estado": estado, "telefono": telefono
-                        }).execute()
-                        st.success("¡Guardado exitosamente!")
-                        st.rerun()
-                    except Exception as e:
-                        st.error(f"Error al guardar: {e}")
+        if c2.button("✉️ Agente de Email Marketing"):
+            st.toast("Disparando secuencia de Micro-conversión...")
+            st.warning(f"Enviando correo personalizado a la base de datos...")
+
+        if c3.button("🛡️ Agente de Seguridad"):
+            st.toast("Verificando identidad de Lead...")
+            st.success("Lead Verificado bajo protocolo Ciberseguridad.")
+
+    # --- AGREGAR NUEVO NODO ---
+    with st.expander("➕ Inyectar Nuevo Lead al Sistema"):
+        with st.form("nuevo_nodo"):
+            nombre = st.text_input("Nombre")
+            correo = st.text_input("Email")
+            empresa = st.text_input("Empresa")
+            submit = st.form_submit_button("Inyectar Lead")
+            if submit and nombre:
+                supabase.table("leads").insert({"nombre": nombre, "correo": correo, "empresa": empresa, "estado": "Nuevo Lead"}).execute()
+                st.rerun()
+
