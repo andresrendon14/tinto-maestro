@@ -1,0 +1,25 @@
+﻿*** MEMORIA DE DESARROLLO: TINTO MAESTRO ***
+CEO: Andrés (Cuenta: joseandresrendonduque96)
+Proyecto: Tinto Maestro (Marca Blanca "Los Parceritos")
+Dominio: losparceritos.com / tinto-maestro.streamlit.app
+
+1. ARQUITECTURA ACTUAL (Modular):
+- El sistema ya no es un monolito. Es escalable.
+- 'app.py': Funciona solo como Router (Director de orquesta) y Login (ceo / 123456).
+- Carpeta 'modulos/': Contiene las piezas de Lego.
+- Módulo activo: 'modulos/sinfonia.py' (Configuración de Marca Blanca, colores, logos).
+
+2. ESTADO DEL SERVIDOR:
+- Estable. Dominio conectado y propagado.
+- 'requirements.txt' purgado y funcionando solo con 'streamlit'.
+
+3. REGLAS DE OPENCLAW PARA ESTE PROYECTO:
+- NO reescribir 'app.py' completo.
+- Crear funciones nuevas en archivos separados dentro de 'modulos/'.
+- Mantener estilo Apple (minimalista, bordes redondeados, colores café/claros).
+
+4. ÚLTIMO PASO REALIZADO:
+- Transición exitosa de código espagueti a Arquitectura Modular.
+
+5. SIGUIENTE PASO PENDIENTE:
+- Decidir qué módulo construir a continuación (Consola IA, CRM, Base de datos Supabase, etc.).
