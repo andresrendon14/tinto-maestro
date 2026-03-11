@@ -1,4 +1,5 @@
-﻿from __future__ import annotations
+﻿# Version OpenClaw 2.0 - Fix Cache
+from __future__ import annotations
 
 import base64
 import datetime as dt
