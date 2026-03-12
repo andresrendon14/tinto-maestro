@@ -1,21 +1,21 @@
-import streamlit as st
-st.set_page_config(page_title="Brand OS", page_icon="??", layout="wide", initial_sidebar_state="expanded")
+﻿import streamlit as st
+st.set_page_config(page_title="Brand OS", page_icon="🎼", layout="wide", initial_sidebar_state="expanded")
 
 from frontend.pages import crm_view, conocimiento_view, sinfonia_view
 
 def main():
-    st.sidebar.title("Brand OS ?")
-    menu = st.sidebar.radio("Navegaci�n Operativa", ["Dashboard", "CRM (Proyectos)", "Conocimiento (RAG)", "Cabina CEO 360 (Compilador)"])
+    st.sidebar.title("Brand OS ⚡")
+    menu = st.sidebar.radio("Navegación Operativa", ["Dashboard", "CRM (Proyectos)", "Conocimiento (RAG)", "Cabina CEO 360"])
     
     if menu == "CRM (Proyectos)":
         crm_view.ejecutar()
     elif menu == "Conocimiento (RAG)":
         conocimiento_view.ejecutar()
-    elif menu == "Cabina CEO 360 (Compilador)":
+    elif menu == "Cabina CEO 360":
         sinfonia_view.ejecutar()
     else:
         st.title("Dashboard Central")
-        st.info("Bienvenido al Motor Cognitivo de Marca. Selecciona un m�dulo en el men� lateral.")
+        st.info("Bienvenido al Motor Cognitivo de Marca. Selecciona un módulo en el menú lateral.")
 
 if __name__ == "__main__":
     main()
