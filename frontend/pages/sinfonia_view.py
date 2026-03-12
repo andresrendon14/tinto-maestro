@@ -1,11 +1,10 @@
 ﻿import streamlit as st
+import streamlit.components.v1 as components
 from backend.services.project_service import ProjectService
 
 def inyectar_css_avanzado():
-    """Hack de CSS para crear el Avatar Flotante y paneles fijos"""
     st.markdown("""
     <style>
-        /* Burbuja Flotante del Avatar CEO */
         .avatar-flotante {
             position: fixed;
             bottom: 30px;
@@ -21,35 +20,56 @@ def inyectar_css_avanzado():
             font-size: 14px;
             transition: all 0.3s ease;
         }
-        .avatar-flotante:hover {
-            transform: scale(1.05);
-            background-color: #2D2D2D;
-        }
-        /* Ajuste de márgenes para maximizar espacio */
-        .block-container {
-            padding-top: 2rem;
-            padding-bottom: 2rem;
-            max-width: 98%;
-        }
+        .avatar-flotante:hover { transform: scale(1.05); background-color: #2D2D2D; }
+        .block-container { padding-top: 1rem; padding-bottom: 1rem; max-width: 98%; }
     </style>
     <div class="avatar-flotante">
-        ◉ <b>Avatar CEO:</b> <i>"Desktop aprobado. Te sugiero ajustar el CTA móvil."</i>
+        ◉ <b>Avatar CEO:</b> <i>"Lienzo Open-Source activado. Puedes arrastrar bloques web reales."</i>
     </div>
     """, unsafe_allow_html=True)
+
+def render_grapesjs_canvas():
+    """Inyecta un constructor web Drag & Drop real (Open Source) dentro de Streamlit"""
+    html_code = """
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/grapesjs/0.21.2/css/grapes.min.css">
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/grapesjs/0.21.2/grapes.min.js"></script>
+        <script src="https://unpkg.com/grapesjs-preset-webpage@1.0.2"></script>
+        <style>
+            body, html { height: 100%; margin: 0; }
+            #gjs { border: 2px solid #444; border-radius: 8px; overflow: hidden; }
+        </style>
+    </head>
+    <body>
+        <div id="gjs">
+            <h1 style="text-align:center; margin-top:50px; font-family:sans-serif;">Lienzo de Diseño Vivo</h1>
+            <p style="text-align:center; font-family:sans-serif;">Arrastra elementos desde el panel derecho hacia aquí.</p>
+        </div>
+        <script>
+            const editor = grapesjs.init({
+                container: '#gjs',
+                height: '600px',
+                width: 'auto',
+                plugins: ['gjs-preset-webpage'],
+                storageManager: false, // Desactivado para esta demo
+            });
+        </script>
+    </body>
+    </html>
+    """
+    components.html(html_code, height=620, scrolling=False)
 
 def ejecutar():
     inyectar_css_avanzado()
 
-    # --- 1. BARRA DE CONTROL GLOBAL (TOP BAR) ---
     st.caption("CENTRO MAESTRO DE EJECUCIÓN VIVA")
     col_t1, col_t2, col_t3, col_t4 = st.columns([3, 2, 2, 3])
-    
-    with col_t1:
-        st.markdown("**Proyecto:** Landing Los Parceritos | **Cliente:** Empresa X")
-    with col_t2:
-        st.info("🟢 Diseño + Código en ejecución")
-    with col_t3:
-        vista = st.radio("Vista:", ["Web", "Tablet", "App"], horizontal=True, label_visibility="collapsed")
+    with col_t1: st.markdown("**Proyecto:** Landing Los Parceritos | **Cliente:** Empresa X")
+    with col_t2: st.info("🟢 Diseño + Código en ejecución")
+    with col_t3: vista = st.radio("Vista:", ["Web", "Tablet", "App"], horizontal=True, label_visibility="collapsed")
     with col_t4:
         c_btn1, c_btn2, c_btn3 = st.columns(3)
         c_btn1.button("▶️ Ejecutar", use_container_width=True)
@@ -58,84 +78,28 @@ def ejecutar():
 
     st.divider()
 
-    # --- ESTRUCTURA DE 3 PANELES ---
-    # Izquierda (20%), Centro (60%), Derecha (20%)
-    panel_izq, panel_cen, panel_der = st.columns([2.5, 5, 2.5])
+    panel_izq, panel_cen, panel_der = st.columns([2.5, 6, 2])
 
-    # --- 2. PANEL IZQUIERDO: CONSOLA IA Y AGENTES ---
     with panel_izq:
         st.subheader("🤖 Consola IA")
-        tab_chat, tab_agentes, tab_permisos, tab_habilidades = st.tabs(["💬 Chat", "⚡ Agentes", "🔐 Permisos", "🛠️ Habilidades"])
-        
+        tab_chat, tab_agentes = st.tabs(["💬 Chat", "⚡ Agentes"])
         with tab_chat:
-            st.text_area("Chat Maestro Operativo", placeholder="Ej: Cambia el botón principal por uno más premium...", height=150)
-            st.button("Enviar Comando Biónico", use_container_width=True)
-            st.caption("Acciones Rápidas:")
-            st.button("✨ Mejorar Hero", use_container_width=True)
-            st.button("📱 Corregir Móvil", use_container_width=True)
-            
+            st.text_area("Comando Biónico", placeholder="Ej: Genera un hero section oscuro...", height=100)
+            st.button("Enviar al Agente", use_container_width=True, type="primary")
         with tab_agentes:
-            with st.container(border=True):
-                st.markdown("**🎨 Stitch Visual Agent**")
-                st.caption("Tarea: Rediseñando Hero | Estado: En curso")
-                st.button("Intervenir", key="btn_stitch")
-            with st.container(border=True):
-                st.markdown("**⚙️ Antigravity Dev**")
-                st.caption("Tarea: Act. Componente | Estado: 🟡 Esperando permiso")
-                st.button("Aprobar", key="btn_anti", type="primary")
+            st.success("Stitch Visual Agent: Operativo")
 
-        with tab_permisos:
-            st.warning("1 Permiso pendiente: Modificar Header.")
-        
-        with tab_habilidades:
-            st.info("Fábrica de habilidades en construcción.")
-
-    # --- 3. PANEL CENTRAL: CANVAS OPERATIVO ---
     with panel_cen:
-        tab_diseno, tab_flujo, tab_preview, tab_comparar = st.tabs(["🎨 Diseñar", "🔀 Flujo", "📱 Vista Previa", "⚖️ Comparar"])
-        
+        tab_diseno, tab_flujo = st.tabs(["🎨 Canvas (GrapesJS)", "🔀 Flujo"])
         with tab_diseno:
-            st.subheader(f"Lienzo Visual Inteligente ({vista})")
-            with st.container(border=True, height=400):
-                st.markdown("<div style='text-align: center; margin-top: 100px; color: gray;'>", unsafe_allow_html=True)
-                st.markdown("### 🏗️ Área del Canvas (Simulador de Componentes)")
-                st.markdown(f"Aquí se renderiza dinámicamente el `render_spec.json` para **{vista}**.")
-                st.button("[ Botón Primario a Editar ]", use_container_width=False)
-                st.markdown("</div>", unsafe_allow_html=True)
-                
-            c_herr1, c_herr2, c_herr3 = st.columns(3)
-            c_herr1.button("➕ Añadir Bloque")
-            c_herr2.button("📝 Editar Copy")
-            c_herr3.button("🖼️ Cambiar Imagen")
+            st.subheader(f"Modo Construcción ({vista})")
+            # --- AQUÍ INYECTAMOS EL CANVAS REAL ---
+            render_grapesjs_canvas()
 
-        with tab_flujo:
-            st.info("Mapa de nodos y conexiones de la aplicación.")
-        with tab_preview:
-            st.success("Vista limpia sin herramientas de edición.")
-
-    # --- 4. PANEL DERECHO: INSPECTOR INTELIGENTE ---
     with panel_der:
         st.subheader("⚙️ Inspector")
-        tab_prop, tab_accion, tab_ia, tab_historial = st.tabs(["Estilo", "Acción", "🧠 IA", "⏱️ Historial"])
-        
-        with tab_prop:
-            st.markdown("**Elemento:** `BotonPrimario`")
-            st.color_picker("Color Principal", "#D4AF37")
-            st.select_slider("Tamaño", options=["S", "M", "L", "XL"], value="M")
-            st.slider("Border Radius", 0, 50, 8)
-            
-        with tab_accion:
-            st.selectbox("Trigger", ["onClick", "onHover", "onLoad"])
-            st.selectbox("Acción", ["Abrir Modal", "Llamar Agente", "Guardar CRM"])
-            
-        with tab_ia:
-            st.info("💡 **Recomendación:** Este CTA tiene baja claridad respecto al ADN de marca. ¿Deseas que Gemini lo reescriba?")
-            st.button("Aplicar Parche IA")
-
-    # --- 5. BOTTOM BAR (TIMELINE) ---
-    st.divider()
-    col_b1, col_b2, col_b3 = st.columns(3)
-    col_b1.caption("🕒 **Timeline:** Hace 2m - Stitch propuso cambio de color.")
-    col_b2.caption("⚠️ **Alertas:** 0 Conflictos detectados.")
-    col_b3.caption("🏗️ **Build:** Versión v1.2 estable.")
-
+        st.info("El inspector nativo de GrapesJS está integrado en el lienzo central. Usa este panel lateral para reglas de negocio e IA.")
+        st.markdown("**Reglas de Marca:**")
+        st.checkbox("Forzar Paleta Aprobada", value=True)
+        st.checkbox("Bloquear Copy Estratégico", value=True)
+        st.button("Revisión de Calidad IA")
